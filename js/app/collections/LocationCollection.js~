@@ -1,0 +1,39 @@
+define(["jquery", "backbone", "collections/Collection", "models/LocationModel"],
+
+  function ($, Backbone, Collection, LocationModel) {
+
+      // Creates a new Backbone Collection class object
+      var LocationCollection = Collection.extend({
+
+          urlBase: 'https://en.wikipedia.org/w/api.php',
+          url: '',
+
+          setURLParams: function (params) {
+
+              this.url = this.urlBase + '?' + $.param(params);
+
+          },
+
+          //return the data as a WinJS-ready bindable list
+          getBinding: function () {
+
+              return new WinJS.Binding.List(this.toJSON(), {binding: false, proxy: false });
+
+          },
+
+          parse: function (data) {
+
+              return data.query.geosearch;
+
+          }
+
+        
+
+      });
+
+      // Returns the Collection
+      return LocationCollection;
+
+  }
+
+);
